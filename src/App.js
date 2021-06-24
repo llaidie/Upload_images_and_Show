@@ -8,12 +8,12 @@ export default function App() {
   const handleOnSubmit = (values, actions) => {
     console.log("Form submitted!", values);
     console.log(actions);
-    var tmp = console.log(tmp);
+
     //actions.setFieldValue("files", "");
     var tmp = _.map(values.files, (v, i) => {
-      console.log(v);
+      console.log(v, v.name);
       console.log(window.URL.createObjectURL(v));
-      return window.URL.createObjectURL(v);
+      return { url: window.URL.createObjectURL(v), name: v.name };
     });
     console.log(tmp);
     setImages(tmp);
@@ -57,9 +57,16 @@ export default function App() {
         Clear
       </button>
       {/* Affichage des Images */}
-      {_.map(images, (im, i) => {
-        return <img src={im} alt="" key={i} />;
-      })}
+      <div className={"flex flex-row"}>
+        {_.map(images, (im, i) => {
+          return (
+            <div className={"flex flex-col"}>
+              <img src={im.url} alt={im.name} key={i} />
+              <input type="text" value={im.name} minWidth={"300px"} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
